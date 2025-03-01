@@ -111,36 +111,3 @@ class PoseDetector:
             if x-midx > threshold:
                 return True
         return False
-
-
-
-
-
-if __name__ == "__main__":
-    cap = cv.VideoCapture(0)
-    pose_detector = PoseDetector()
-
-    while cap.isOpened():
-        ret, frame = cap.read()
-        if not ret:
-            break
-        results = pose_detector.process_frame(frame)
-        frame = pose_detector.draw_landmarks(frame, results)
-        frame = cv.flip(frame, 1)
-        #check gestures
-        if(pose_detector.is_hand_raised(frame,results)):
-            print("Hand is raised")
-        if(pose_detector.is_squatting(frame,results)):
-            print("Squatting!!!")
-        if(pose_detector.is_jumping(frame,results)):
-            print("Jumping!!!")
-        cv.imshow("Pose Detection",frame)
-        if(pose_detector.is_leaning_left(frame,results)):
-            print("Left Left is Pressed")
-        if(pose_detector.is_leaning_right(frame,results)):
-            print("Right Right is Pressed")
-        if cv.waitKey(1) & 0xFF == ord('q'):
-            break
-
-    cap.release()
-    cv.destroyAllWindows()
